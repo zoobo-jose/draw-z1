@@ -1,0 +1,360 @@
+<!DOCTYPE html5>
+<html>
+
+<head>
+    <title>z1-projets</title>
+    <link href="
+    https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.min.css
+    " rel="stylesheet">
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="./css/projet.css">
+    <link rel="stylesheet" href="./css/dessin.css">
+</head>
+
+<body>
+
+    <!-- page principale  -->
+    <div class="__projet__ open page_" data-page="projet">
+        <div class="body_">
+            <!-- header -->
+            <div class="head">
+                <h1>Dessiner avec Z1</h1>
+                <img class="main-img" src="./assets/bg.webp" alt="">
+                <span class="logo">z1</span>
+                <img class="img" src="./assets/logo.png" alt="">
+                <div class="search">
+                    <input type="text" placeholder="search projets">
+                </div>
+            </div>
+            <!-- options en dessous du hearder -->
+            <div class="options">
+                <!-- option :creer un nouveau projet  -->
+                <div class="option" onclick="want_create_projet()">
+                    <span>nouveau projet </span>
+                    <i class="bi bi-palette"></i>
+                </div>
+                <!-- option : reorganiser l'affichage  -->
+                <div class="option" onclick="change_display_mode()">
+                    <i class="bi bi-columns-gap"></i>
+                </div>
+            </div>
+            <!-- body ou on affiche les projets -->
+            <div class="body" id="projets">
+            </div>
+
+            <!-- popup pour supprimer un projet -->
+            <div class="popup" id="delete_projet">
+                <div class="content">
+                    <img src="./assets/logo.png" alt="">
+                    <p>Supprimer le projet <span id="delete_projet_p"></span> </p>
+                    <div class="buttons">
+                        <button class="button" onclick="delete_current_projet();close_popup('delete_projet');">
+                            Supprimer
+                        </button>
+                        <button class="button" onclick="close_popup('delete_projet')">
+                            Annuler
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- popup pour creer un projet nouveau -->
+            <div class="popup" id="new_projet">
+                <div class="content">
+                    <img src="./assets/logo.png" alt="">
+                    <p>Nom du projet: <input id="create_projet_i" type="text"> </p>
+                    <div class="buttons">
+                        <button class="button" onclick="create_projet();close_popup('new_projet');">
+                            Creer
+                        </button>
+                        <button class="button" onclick="close_popup('new_projet')">
+                            Annuler
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- popup pour dupliquer un projet nouveau -->
+            <div class="popup" id="duplicate_projet">
+                <div class="content">
+                    <img src="./assets/logo.png" alt="">
+                    <p>Nom du projet: <input id="duplicate_projet_i" type="text"> </p>
+                    <div class="buttons">
+                        <button class="button" onclick="duplicate_projet();close_popup('duplicate_projet');">
+                            Dupliquer
+                        </button>
+                        <button class="button" onclick="close_popup('duplicate_projet')">
+                            Annuler
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page pour dessiner -->
+    <div class="__dessin__ page_" data-page="dessin">
+        <div class="body_">
+            <!-- header de la page de dessin -->
+            <div class="head">
+                <span class="a" onclick="open_popup('save_projet')"><i class="bi bi-folder"></i> Projets # </span>
+                <span class="a" id="projet_name">
+                    nom du projet
+                </span>
+            </div>
+            <!-- body principale-->
+            <div class="body">
+
+                <!-- options de gauche  -->
+                <div class="options">
+                    <!-- option : selectionner -->
+                    <div class="option select setter-mode" data-mode="select" onclick="set_mode_dessin('select')">
+                        <i class="bi bi-cursor"></i>
+                        <span>select</span>
+                    </div>
+                    <!-- option : ajouter une forme -->
+                    <div class="option setter-mode" data-mode="create-shape" onclick="set_mode_dessin('create-shape')">
+                        <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px"
+                            viewBox="0 0 24 24" width="24px" fill="#000000">
+                            <rect fill="none" height="24" width="24" />
+                            <path
+                                d="M7.02,13c-2.21,0-4,1.79-4,4s1.79,4,4,4s4-1.79,4-4S9.23,13,7.02,13z M7.02,19c-1.1,0-2-0.9-2-2s0.9-2,2-2s2,0.9,2,2 S8.12,19,7.02,19z M13,13v8h8v-8H13z M19,19h-4v-4h4V19z M7,2l-5,9h10L7,2z M7,6.12L8.6,9H5.4L7,6.12z M19.25,2.5 c-1.06,0-1.81,0.56-2.25,1.17c-0.44-0.61-1.19-1.17-2.25-1.17C13.19,2.5,12,3.78,12,5.25c0,2,2.42,3.42,5,5.75 c2.58-2.33,5-3.75,5-5.75C22,3.78,20.81,2.5,19.25,2.5z M17,8.35c-1.45-1.22-3-2.4-3-3.1c0-0.43,0.35-0.75,0.75-0.75 c0.31,0,0.52,0.17,0.73,0.37L17,6.3l1.52-1.43c0.21-0.2,0.42-0.37,0.73-0.37c0.4,0,0.75,0.32,0.75,0.75C20,5.95,18.45,7.13,17,8.35z" />
+                        </svg>
+                        <span>shapes</span>
+                    </div>
+                    <!-- option: agrandir une forme -->
+                    <div class="option setter-mode" data-mode="scale" onclick="set_mode_dessin('scale')">
+                        <i class="bi bi-arrows-fullscreen"></i>
+                        <span>scale</span>
+                    </div>
+                    <!-- option: dupliquer une forme -->
+                    <div class="option setter-mode" onclick="duplicate_current_shape()">
+                        <i class="bi bi-copy"></i>
+                        <span>duplicate</span>
+                    </div>
+                    <!-- option: color -->
+                    <div class="option setter-mode" data-mode="set-color" onclick="set_mode_dessin('set-color')"
+                        style="--color:rgb(255, 136, 0);">
+                        <i class="bi bi-palette-fill"></i>
+                        <span>border</span>
+                    </div>
+                    <!-- option:fill color -->
+                    <div class="option setter-mode" data-mode="fill-color" onclick="set_mode_dessin('fill-color')"
+                        style="--color:rgb(34, 255, 0);">
+                        <i class="bi bi-paint-bucket"></i>
+                        <span>fill</span>
+                    </div>
+                    <!-- option: sauvegarder le projet -->
+                    <div class="option setter-mode" onclick="update_current_data()">
+                        <i class="bi bi-floppy"></i>
+                        <span>save</span>
+                    </div>
+                    <!-- option: supprimer le projet -->
+                    <div class="option setter-mode" onclick="delete_current_shape()">
+                        <i class="bi bi-trash"></i>
+                        <span>delete</span>
+                    </div>
+                </div>
+
+                <!-- paper : on  y dessine -->
+                <div class="table">
+                    <div class="paper" id="_paper">
+                    </div>
+                </div>
+            </div>
+
+            <!-- panel de propriete-->
+            <div class="panel open" id="props" data-mode="select">
+                <!-- premier partie du panel property -->
+                <div class="side">
+                    <div class="prop">
+                        <span>x :</span>
+                        <input type="number" id="prop_x" oninput="set_attr_of_current_shape('x',parseInt(this.value))">
+                    </div>
+                    <div class="prop">
+                        <span>y :</span>
+                        <input type="number" id="prop_y" oninput="set_attr_of_current_shape('y',parseInt(this.value))">
+                    </div>
+                    <div class="prop">
+                        <span>z :</span>
+                        <input type="number" id="prop_zIndex"
+                            oninput="set_attr_of_current_shape('zIndex',parseInt(this.value))">
+                    </div>
+                    <div class="prop">
+                        <span>rotation x :</span>
+                        <span>0</span>
+                        <input class="rotation" type="range" min="0" max="360" id="prop_rotationX"
+                            oninput="set_attr_of_current_shape('rotationX',parseInt(this.value))">
+                    </div>
+                    <div class="prop">
+                        <span>rotation y :</span>
+                        <span>0</span>
+                        <input class="rotation" type="range" min="0" max="360" id="prop_rotationY"
+                            oninput="set_attr_of_current_shape('rotationY',parseInt(this.value))">
+                    </div>
+                    <div class="prop">
+                        <span>rotation z :</span>
+                        <span>0</span>
+                        <input class="rotation" type="range" min="0" max="360" id="prop_rotationZ"
+                            oninput="set_attr_of_current_shape('rotationZ',parseInt(this.value))">
+                    </div>
+                    <div class="prop">
+                        <span>border :</span>
+                        <input type="checkbox" id="prop_border"
+                            oninput="set_attr_of_current_shape('border',this.checked)">
+                    </div>
+                    <div class="prop">
+                        <span>border weight:</span>
+                        <input type="number" id="prop_border_weight"
+                            oninput="set_attr_of_current_shape('border_weight',parseInt(this.value))">
+                    </div>
+                    <div class="prop">
+                        <span>border color:</span>
+                        <input class="color" type="color" id="prop_border_color"
+                            oninput="set_attr_of_current_shape('border_color',this.value)">
+                    </div>
+                    <div class="prop">
+                        <span>fill :</span>
+                        <input type="checkbox" id="prop_fill" oninput="set_attr_of_current_shape('fill',this.checked)">
+                    </div>
+                    <div class="prop">
+                        <span>fill color:</span>
+                        <input class="color" type="color" id="prop_fill_color"
+                            oninput="set_attr_of_current_shape('fill_color',this.value)">
+                    </div>
+                    <div class="prop">
+                        <span>area:</span>
+                        <span id="prop_area_"></span>
+                    </div>
+                    <div class="prop">
+                        <span>perimeter:</span>
+                        <span id="prop_perimeter_"></span>
+                    </div>
+                </div>
+                <!-- deuxieme partie du panel property qui depend de la forme selectionner -->
+                <div class="side" id="custom_side">
+                </div>
+
+            </div>
+
+            <!-- panel des formes-->
+            <div class="panel" id="shapes_option" data-mode="create-shape">
+                <div class="shape_option" onclick=" add_new_shape('square')">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"
+                        fill="#000000">
+                        <path d="M0 0h24v24H0V0z" fill="none" />
+                        <path
+                            d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" />
+                    </svg>
+                    <span>square</span>
+                </div>
+                <div class="shape_option" onclick=" add_new_shape('rectangle')">
+                    <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px"
+                        viewBox="0 0 24 24" width="24px" fill="#000000">
+                        <g>
+                            <rect fill="none" height="24" width="24" />
+                        </g>
+                        <g>
+                            <g>
+                                <path d="M2,4v16h20V4H2z M20,18H4V6h16V18z" />
+                            </g>
+                        </g>
+                    </svg>
+                    <span>rectangle</span>
+                </div>
+                <div class="shape_option" onclick=" add_new_shape('triangle')">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"
+                        fill="#000000">
+                        <path d="M0 0h24v24H0V0z" fill="none" />
+                        <path d="M12 7.77L18.39 18H5.61L12 7.77M12 4L2 20h20L12 4z" />
+                    </svg>
+                    <span>triangle</span>
+                </div>
+                <div class="shape_option" onclick=" add_new_shape('circle')">
+                    <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px"
+                        viewBox="0 0 24 24" width="24px" fill="#000000">
+                        <g>
+                            <rect fill="none" height="24" width="24" />
+                        </g>
+                        <g>
+                            <path
+                                d="M12,2C6.47,2,2,6.47,2,12c0,5.53,4.47,10,10,10s10-4.47,10-10C22,6.47,17.53,2,12,2z M12,20c-4.42,0-8-3.58-8-8 c0-4.42,3.58-8,8-8s8,3.58,8,8C20,16.42,16.42,20,12,20z" />
+                        </g>
+                    </svg>
+                    <span>circle</span>
+                </div>
+                <div class="shape_option" onclick="add_new_shape('hexagone')">
+                    <svg width="800" height="800">
+                        <polygon points="15,7.5 25.8,13.75 25.8,26.25 15,32.5 4.2,26.26 4.2,13.75" style="fill:rgba(255, 255, 255, 0);stroke-width:3;
+                           stroke:rgb(255,255,255);"></polygon>
+                    </svg>
+                    <span>hexagone</span>
+                </div>
+                <div class="shape_option" onclick="add_new_shape('losange')">
+                    <svg width="800" height="800">
+                        <polygon points="17.67766952966369,0 35.35533905932738,17.67766952966369 17.67766952966369,35.35533905932738 0,17.67766952966369 " style="fill:rgba(255, 255, 255, 0);stroke-width:1;
+                           stroke:rgb(255,255,255);"></polygon>
+                    </svg>
+                    <span>losange</span>
+                </div>
+                <div class="shape_option" onclick=" add_new_shape('ellipse')">
+                    <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+                        <ellipse style="fill:rgba(255, 255, 255, 0);stroke-width:10;
+                        stroke:rgb(255,255,255);" cx="100" cy="50" rx="90" ry="60" />
+                    </svg>
+                    <span>ellipse</span>
+                </div>
+                <div class="shape_option" onclick=" add_new_shape('text')">
+                    <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px"
+                        viewBox="0 0 24 24" width="24px" fill="#000000">
+                        <g>
+                            <rect fill="none" height="24" width="24" />
+                        </g>
+                        <g>
+                            <path
+                                d="M21,11h-1.5v-0.5h-2v3h2V13H21v1c0,0.55-0.45,1-1,1h-3c-0.55,0-1-0.45-1-1v-4c0-0.55,0.45-1,1-1h3c0.55,0,1,0.45,1,1V11z M8,10v5H6.5v-1.5h-2V15H3v-5c0-0.55,0.45-1,1-1h3C7.55,9,8,9.45,8,10z M6.5,10.5h-2V12h2V10.5z M13.5,12c0.55,0,1,0.45,1,1v1 c0,0.55-0.45,1-1,1h-4V9h4c0.55,0,1,0.45,1,1v1C14.5,11.55,14.05,12,13.5,12z M11,10.5v0.75h2V10.5H11z M13,12.75h-2v0.75h2V12.75z" />
+                        </g>
+                    </svg>
+                    <span>text</span>
+                </div>
+                <div class="shape_option">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="0" y1="80" x2="100" y2="20" stroke="white" stroke-width="5" />
+                    </svg>
+                    <span>line</span>
+                </div>
+            </div>
+
+            <!-- popup pour enregistrer un projet -->
+            <div class="popup" id="save_projet">
+                <div class="content">
+                    <img src="./assets/logo.png" alt="">
+                    <p>Enregistrer avant de sortir du projet <span id="save_projet_p"></span> </p>
+                    <div class="buttons">
+                        <button class="button" onclick="save_before_leave();close_popup('save_projet')">
+                            Enregistrer
+                        </button>
+                        <button class="button" onclick="go_to_page('projet');close_popup('save_projet')">
+                            Sauter
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script src="./js/api.js"></script>
+    <script src="./js/utility.js"></script>
+    <script src="./js/movable.js"></script>
+    <script src="./js/dessin.page.js"></script>
+    <script src="./js/shape.js"></script>
+    <script src="./js/projet.js"></script>
+    <script src="./js/projet.page.js"></script>
+</body>
+
+</html>

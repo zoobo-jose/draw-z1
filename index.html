@@ -33,10 +33,19 @@
                     <span>nouveau projet </span>
                     <i class="bi bi-palette"></i>
                 </div>
+                 <!-- option : rafraichir  -->
+                 <div class="option" onclick="load_data_from_server()">
+                    <i class="bi bi-arrow-clockwise"></i>
+                </div>
                 <!-- option : reorganiser l'affichage  -->
                 <div class="option" onclick="change_display_mode()">
                     <i class="bi bi-columns-gap"></i>
                 </div>
+               
+            </div>
+            <div class="waiter" id="waiter">
+                Chargement des projets 
+                <div class="lds-hourglass"></div>  
             </div>
             <!-- body ou on affiche les projets -->
             <div class="body" id="projets">
@@ -87,6 +96,75 @@
                     </div>
                 </div>
             </div>
+             <!-- popup pour signaler l'erreur de chargement des projets server -->
+             <div class="popup" id="error-server">
+                <div class="content">
+                    <img src="./assets/logo.png" alt="">
+                    <p>Impossible d'acceder au serveur ! Vous pouvez travailler en local </p>
+                    <div class="buttons">
+                        <button class="button" onclick="close_popup('error-server')">
+                            Compris
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Documentation -->
+            <div class="documentaion">
+                <h2>Reponces</h2>
+                <h3 class="margin" style="--margin:5em">Question 1</h3>
+                <ul class="margin" style="--margin:7em">
+                    <li>J'utilise <strong>Javascript</strong> comme plateforme de programmation oriente objet</li>
+                    <li>J'utilise <strong> VS code </strong> comme IDE</li>
+                </ul>
+                <h3 class="margin" style="--margin:5em">Question 2 : fonctionalites </h3>
+                <h4 class="margin" style="--margin:7em">Creation de formes</h4>
+                <ul class="margin" style="--margin:9em">
+                    <li>creer des carres , rectangles , losanges, cercle,hexagone et ellipse</li>
+                    <li>modifier les proprietes de forme : couleur ,point d'origine . . . </li>
+                </ul>
+                <h4 class="margin" style="--margin:7em">Edition de formes</h4>
+                <ul class="margin" style="--margin:9em">
+                    <li>selectonner une forme</li>
+                    <li>L'agrandir et le retressir </li>
+                    <li>Deplacer une forme </li>
+                    <li>modifier les proprietes de forme : couleur ,point d'origine . . . </li>
+                </ul>
+                <h4 class="margin" style="--margin:7em">Visualisation de formes</h4>
+                <h4 class="margin" style="--margin:7em">Caculs geometriques</h4>
+                <ul class="margin" style="--margin:9em">
+                    <li>Calcul automatique des proprietes clees des formes tel que l'air et le perimetre</li>
+                </ul>
+                <h4 class="margin" style="--margin:7em">Stockage de donnees</h4>
+                <ul class="margin" style="--margin:9em">
+                    <li>Sauvegader son travail</li>
+                    <li>charger son travail</li>
+                </ul>
+                <h4 class="margin" style="--margin:7em">Interface conviviale</h4>
+                <h3 class="margin" style="--margin:5em">Question 3 : conception</h3>
+                <h4 class="margin" style="--margin:7em">Interface </h4>
+                <ul class="margin" style="--margin:9em">
+                    <li>Une page principal pour administrer des projets de dessin</li>
+                    <li>Une page pour dessiner dans un projet</li>
+                </ul>
+                <h4 class="margin" style="--margin:7em">Structure du code </h4>
+                <h4 class="margin center" style="--margin:9em">classes </h4>
+                <img src="./assets/class.png" alt="">
+                <h4 class="margin center" style="--margin:9em">architecture </h4>
+                <img src="./assets/arch.png" alt="">
+                <h3 class="margin" style="--margin:5em">Question 5 </h3>
+                <h4 class="margin" style="--margin:7em">IDE</h4>
+                <p class="margin" style="--margin:9em">
+                    l'IDE utilisee est <strong>VS CODE </strong> , une IDE puissante et developpe par microsoft
+                     ,compatible avec une multitude de language de programmation . Il est hautement personnalisable
+                     et offre gratuitement une mutitude de gadget
+                </p>
+                <h4 class="margin" style="--margin:7em">BD</h4>
+                <p class="margin" style="--margin:9em">
+                   la base de donnees utilise est <strong> mongo db </strong> , une base de donnees NOSQl , parfait
+                   pour des projets qui doivent evoluer dans des milieux dynamique car il est souple et permet de facilement
+                   modifier la structure de donnees.
+                </p>
+            </div>
         </div>
     </div>
 
@@ -95,9 +173,8 @@
         <div class="body_">
             <!-- header de la page de dessin -->
             <div class="head">
-                <span class="a" onclick="open_popup('save_projet')"><i class="bi bi-folder"></i> Projets # </span>
+                <span class="a cursor_pointer" onclick="open_popup('save_projet')"><i class="bi bi-folder-fill"></i> Projets / </span>
                 <span class="a" id="projet_name">
-                    nom du projet
                 </span>
             </div>
             <!-- body principale-->
@@ -314,12 +391,6 @@
                         </g>
                     </svg>
                     <span>text</span>
-                </div>
-                <div class="shape_option">
-                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <line x1="0" y1="80" x2="100" y2="20" stroke="white" stroke-width="5" />
-                    </svg>
-                    <span>line</span>
                 </div>
             </div>
 

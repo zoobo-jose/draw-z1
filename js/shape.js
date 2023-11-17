@@ -271,6 +271,7 @@ class Rectangle extends Shape {
     }
 
 }
+
 class Losange extends Shape {
     type = "losange";
     properties = [100, 60];
@@ -280,10 +281,10 @@ class Losange extends Shape {
             let svg = super.add_svg();
             let r = this.properties[0];
             let angle = this.properties[1];
-            let w = 2 * (r + this.border_weight); 
+            let w = 2 * (r + this.border_weight);
             svg.setAttribute("width", w);
             svg.setAttribute("height", w);
-            let coords = losange_coord(r, angle);
+            let coords = losange_coord(r, angle,this.border_weight);
             svg.innerHTML = '<polygon points=" ' + get_points_svg(coords) + '" />';
             paper.append(svg);
         }
@@ -295,7 +296,7 @@ class Losange extends Shape {
         let w = 2 * (r + this.border_weight);
         svg.setAttribute("width", w);
         svg.setAttribute("height", w);
-        let coords = losange_coord(r, angle);
+        let coords = losange_coord(r, angle,this.border_weight);
         svg.innerHTML = '<polygon points=" ' + get_points_svg(coords) + '" />';
     }
     get_properties_name() {
@@ -310,49 +311,58 @@ class Losange extends Shape {
         // renvoie l'aire du shape
         let r = this.properties[0];
         let angle = this.properties[1];
-        angle= Math.PI*angle/180;
-        let area = 2*r*r*(Math.sin(angle/2)*Math.cos(angle/2))
+        angle = Math.PI * angle / 180;
+        let area = 2 * r * r * (Math.sin(angle / 2) * Math.cos(angle / 2))
         return round(area, 2);
     }
     getPerimeter() {
         // renvoie l'aire du shape
-        let r= this.properties[0];
+        let r = this.properties[0];
         return round(4 * r, 2);
+    }
+    getCustomCalcul() {
+        let r = this.properties[0];
+        let angle_ = this.properties[1];
+        let angle = (angle_ / 2) * Math.PI / 180;
+        let dx = 2 * r * Math.cos(angle); dx = round(dx, 2);
+        let dy = 2 * r * Math.sin(angle); dy = round(dy, 2);
+        let angle2 = 180 - angle_;
+        return [["angle2", angle2], ["diagonale horizontale", dx], ["diagonale vertical", dy]];
     }
 
 }
+
+
 class Triangle extends Shape {
     type = "triangle";
-    properties = [1];
+    properties = [300];
     add_svg() {
         let paper = this.get_paper();
         if (paper) {
             let svg = super.add_svg();
-            let k = this.properties[0];
-            let w = 450 + 2 * this.border_weight;
-            let h = 250 + 2 * this.border_weight;
-            svg.setAttribute("width", w * k);
-            svg.setAttribute("height", h * k);
-            let x = [225, 100, 350];
-            let y = [10, 210, 210];
-            svg.innerHTML = '<polygon points=" ' + (x[0] * k) + ',' + (y[0] * k) + '  ' + (x[1] * k) + ',' + (y[1] * k) + ' ' + (x[2] * k) + ',' + (y[2] * k) + '" />';
+            let cote = this.properties[0];
+            let w = cote + 2 * (this.border_weight);
+            let h = cote / (2 * Math.tan(Math.PI / 3)) + cote / (2 * Math.sin(Math.PI / 3)) + 2 * (this.border_weight);
+            svg.setAttribute("width", w);
+            svg.setAttribute("height", h);
+            let coords = triangle_isocele_coord(cote,this.border_weight);
+            svg.innerHTML = '<polygon points=" ' + get_points_svg(coords) + '" />';
             paper.append(svg);
         }
     }
 
     update_svg() {
         let svg = this.get_svg();
-        let k = this.properties[0];
-        let w = 450 + 2 * this.border_weight;
-        let h = 250 + 2 * this.border_weight;
-        svg.setAttribute("width", w * k);
-        svg.setAttribute("height", h * k);
-        let x = [225, 100, 350];
-        let y = [10, 210, 210];
-        svg.innerHTML = '<polygon points=" ' + (x[0] * k) + ',' + (y[0] * k) + '  ' + (x[1] * k) + ',' + (y[1] * k) + ' ' + (x[2] * k) + ',' + (y[2] * k) + '" />';
+        let cote = this.properties[0];
+        let w = cote + 2 * (this.border_weight);
+        let h = cote / (2 * Math.tan(Math.PI / 3)) + cote / (2 * Math.sin(Math.PI / 3)) + 2 * (this.border_weight);
+        svg.setAttribute("width", w);
+        svg.setAttribute("height", h);
+        let coords = triangle_isocele_coord(cote,this.border_weight);
+        svg.innerHTML = '<polygon points=" ' + get_points_svg(coords) + '" />';
     }
     get_properties_name() {
-        return ["k"]
+        return ["cote"]
     }
     scale(k) {
         super.scale(k);
@@ -373,7 +383,7 @@ class Hexagone extends Shape {
             let w = 2 * (r + this.border_weight);
             svg.setAttribute("width", w);
             svg.setAttribute("height", w);
-            let coords = hexagone_coord(r);
+            let coords = hexagone_coord(r,this.border_weight);
             svg.innerHTML = '<polygon points=" ' + get_points_svg(coords) + '" />';
             paper.append(svg);
         }
@@ -385,7 +395,7 @@ class Hexagone extends Shape {
         let w = 2 * (r + this.border_weight);
         svg.setAttribute("width", w);
         svg.setAttribute("height", w);
-        let coords = hexagone_coord(r);
+        let coords = hexagone_coord(r,this.border_weight);
         svg.innerHTML = '<polygon points=" ' + get_points_svg(coords) + '" />';
     }
     get_properties_name() {

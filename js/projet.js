@@ -190,12 +190,16 @@ function load_data_from_local_storage() {
 }
 /* sauvegader le projet avant de quitter la page de dessin*/
 function save_before_leave() {
+    let projet= get_current_projet();
+    _API.update_project(projet);
     save_data_on_local_storage('save before');
     go_to_page('projet');
 
 }
 
 function load_data_from_server() {
+    open_popup("waiter");
+    Projets=[];
     fetch(SERVER_URL + "/projets", {
         method: 'GET',
         headers: {
@@ -209,7 +213,12 @@ function load_data_from_server() {
                     projets[i].shapes = JSON.parse(projets[i].shapes)
                 }
             }
+            close_popup("waiter");
             set_projets_from_json(projets)
+        }).catch((error)=>{
+            close_popup("waiter");
+            open_popup("error-server");
+            load_data_from_local_storage()
         })
 }
 

@@ -110,7 +110,7 @@ function adapt_panel_to_current_shape() {
             div.append(span);
             let input = document.createElement('input');
             input.value = props[i];
-            if (["width", "rayon", "height", "k", "rx", "ry","r","angle"].includes(props_name[i])) {
+            if (["width", "rayon", "height", "k", "rx", "ry","r","angle","cote"].includes(props_name[i])) {
                 input.setAttribute("type", "number")
                 input.oninput = function (e) {
                     set_property_of_current_shape(index, parseInt(this.value))
